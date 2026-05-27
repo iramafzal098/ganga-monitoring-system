@@ -14,7 +14,6 @@ An AI-powered river water quality monitoring and analytics dashboard for the Gan
 - 🗺️ Live map visualization using Leaflet.js
 
 ---
-
 ## 🧠 Problem Statement
 
 The Ganga River faces severe pollution challenges due to:
