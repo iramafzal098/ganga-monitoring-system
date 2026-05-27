@@ -72,40 +72,7 @@ Displays:
 
 ---
 
-## 📷 Screenshots
 
-Add screenshots here later.
-
----
-
-## ⚙️ Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/YOUR_USERNAME/ganga-monitoring-system.git
-```
-
-Open:
-```bash
-index.html
-```
-
-in browser.
-
----
-
-## 🌐 Live Demo
-
-Add deployed link here after GitHub Pages deployment.
-
-Example:
-
-```bash
-https://yourusername.github.io/ganga-monitoring-system/
-```
-
----
 
 ## 🎯 Future Improvements
 
