@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="style.css">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>Ganga River Water Quality Monitoring</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS for Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Chart.js for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Leaflet JS for Maps -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    
+</head>
+
+<body>
+    <!-- 1. ROLE SELECTION SCREEN -->
+    <div id="roleSelection" class="screen">
+        <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem;">
+            <div class="card" style="width: 100%; max-width: 400px; padding: 2rem;">
+                <div class="text-center mb-6">
+                    <div style="width: 64px; height: 64px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                        <i data-lucide="droplets" style="width: 32px; height: 32px; color: var(--primary-foreground);"></i>
+                    </div>
+                    <h1 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">Ganga River Water Quality</h1>
+                    <p style="color: var(--muted-foreground);">Monitoring & Forecasting System</p>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <button onclick="showRegistration()" class="btn btn-primary" style="height: 48px; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                        <i data-lucide="user" style="width: 20px; height: 20px;"></i>
+                        Public User
+                    </button>
+                    
+                    <button onclick="alert('Admin interface coming soon!')" class="btn btn-secondary" style="height: 48px; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                        <i data-lucide="shield" style="width: 20px; height: 20px;"></i>
+                        Government Administrator
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 2. USER REGISTRATION FORM -->
+    <div id="registrationForm" class="screen hidden">
+        <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem;">
+            <div class="card" style="width: 100%; max-width: 400px; padding: 1.5rem;">
+                <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                    <button onclick="showRoleSelection()" class="btn" style="padding: 0.25rem 0.5rem; margin-right: 0.75rem; background: none;">←</button>
+                    <h2 style="font-size: 1.25rem; font-weight: 600;">User Registration</h2>
+                </div>
+                
+                <form id="userRegistrationForm" onsubmit="handleRegistration(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Full Name</label>
+                        <input type="text" id="userName" class="input" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">City</label>
+                        <select id="userCity" class="select" required>
+                            <option value="">Select your city</option>
+                            <option value="Haridwar">Haridwar</option>
+                            <option value="Kanpur">Kanpur</option>
+                            <option value="Allahabad">Allahabad</option>
+                            <option value="Varanasi">Varanasi</option>
+                            <option value="Patna">Patna</option>
+                            <option value="Kolkata">Kolkata</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email Address</label>
+                        <input type="email" id="userEmail" class="input" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 3. MAIN DASHBOARD -->
+   <div id="dashboard" class="screen ">
+        <!-- SIDEBAR -->
+
+<div class="sidebar">
+
+    <div class="sidebar-logo">
+
+        <h2>🌊 Ganga AI</h2>
+
+        <p>River Intelligence</p>
+
+    </div>
+   
+<div class="sidebar-menu">
+
+    <button
+        class="sidebar-item active"
+       onclick="document.getElementById('dashboard').scrollIntoView({behavior:'smooth'})"
+    >
+        🏠 Dashboard
+    </button>
+
+    <button
+        class="sidebar-item"
+       onclick="document.getElementById('analytics').scrollIntoView({behavior:'smooth'})"
+    >
+        📊 Analytics
+    </button>
+
+    <button
+        class="sidebar-item"
+        onclick="showScreen('dashboard')"
+    >
+        🤖 AI Forecast
+    </button>
+
+    <button
+        class="sidebar-item"
+        onclick="showScreen('dashboard')"
+    >
+        🚨 Alerts
+    </button>
+
+    <button
+        class="sidebar-item"
+        onclick="showScreen('dashboard')"
+    >
+        🗺️ Pollution Map
+    </button>
+
+    <button
+        class="sidebar-item"
+       onclick="document.getElementById('account').scrollIntoView({behavior:'smooth'})"
+    >
+        ⚙️ Settings
+    </button>
+
+</div>
+    </div>
+    
+        <!-- Header -->
+        <div style="background: var(--card); box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-bottom: 1px solid var(--border);">
+           <div class="container">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i data-lucide="droplets" style="width: 24px; height: 24px; color: var(--primary-foreground);"></i>
+                    </div>
+                    <div>
+                        <h1 style="font-size: 1.125rem; font-weight: 600;">Ganga Monitoring</h1>
+                        <p id="userCityDisplay" style="font-size: 0.875rem; color: var(--muted-foreground);">Varanasi</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <i data-lucide="user" style="width: 16px; height: 16px; color: var(--muted-foreground);"></i>
+                    <span id="userNameDisplay" style="font-size: 0.875rem;">User</span>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="padding: 1.5rem; padding-bottom: 5rem;">
+            <!-- KPI CARDS -->
+
+<div class="kpi-grid mb-6">
+
+    <div class="card kpi-card">
+
+        <div class="kpi-top">
+            <div>
+                <p class="kpi-label">Water Quality Index</p>
+                <h2 class="kpi-value">72</h2>
+            </div>
+
+            <div class="kpi-icon blue">
+                💧
+            </div>
+        </div>
+
+        <p class="kpi-trend positive">
+            ↑ 12% healthier than last week
+        </p>
+
+    </div>
+
+    <div class="card kpi-card">
+
+        <div class="kpi-top">
+            <div>
+                <p class="kpi-label">pH Level</p>
+                <h2 class="kpi-value">7.2</h2>
+            </div>
+
+            <div class="kpi-icon green">
+                ⚗️
+            </div>
+        </div>
+
+        <p class="kpi-trend positive">
+            Safe range maintained
+        </p>
+
+    </div>
+
+    <div class="card kpi-card">
+
+        <div class="kpi-top">
+            <div>
+                <p class="kpi-label">Dissolved Oxygen</p>
+                <h2 class="kpi-value">6.4</h2>
+            </div>
+
+            <div class="kpi-icon cyan">
+                🌊
+            </div>
+        </div>
+
+        <p class="kpi-trend positive">
+            Oxygen improving
+        </p>
+
+    </div>
+
+    <div class="card kpi-card">
+
+        <div class="kpi-top">
+            <div>
+                <p class="kpi-label">Pollution Risk</p>
+                <h2 class="kpi-value">Moderate</h2>
+            </div>
+
+            <div class="kpi-icon red">
+                🚨
+            </div>
+        </div>
+
+        <p class="kpi-trend negative">
+            Kanpur zone affected
+        </p>
+
+    </div>
+
+</div>
+<!-- AI PREDICTION PANEL -->
+
+<div class="card ai-panel mb-6">
+
+    <div class="ai-header">
+
+        <div>
+
+            <h2 class="ai-title">
+                🤖 AI Pollution Forecast
+            </h2>
+
+            <p class="ai-subtitle">
+                Real-time predictive river intelligence
+            </p>
+
+        </div>
+
+        <div class="ai-status">
+            LIVE AI
+        </div>
+
+    </div>
+
+    <div class="ai-grid">
+
+        <div class="ai-box">
+
+            <p class="ai-label">
+                Predicted Water Quality
+            </p>
+
+            <h2 class="ai-main-value">
+                68
+            </h2>
+
+            <p class="ai-good">
+                Moderate Quality Expected
+            </p>
+
+        </div>
+
+        <div class="ai-box">
+
+            <p class="ai-label">
+                High Risk Zone
+            </p>
+
+            <h2 class="ai-main-value">
+                Kanpur
+            </h2>
+
+            <p class="ai-danger">
+                Industrial discharge detected
+            </p>
+
+        </div>
+
+        <div class="ai-box">
+
+            <p class="ai-label">
+                AI Recommendation
+            </p>
+
+            <h2 class="ai-main-value">
+                Reduce Waste
+            </h2>
+
+            <p class="ai-good">
+                Recovery expected in 3 days
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+            <!-- Water Quality Alerts -->
+            <div class="mb-6">
+                <h2 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i data-lucide="alert-triangle" style="width: 20px; height: 20px;"></i>
+                    Water Quality Alerts
+                </h2>
+                
+                <div class="card">
+                    <div id="alertsContainer" style="height: 250px; overflow-y: auto; padding: 1rem;">
+                        <!-- Alert items will be populated by JavaScript -->
+                        <div class="alert-critical p-4 mb-4" style="border-radius: var(--radius);">
+                            <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Critical: Very high bacterial contamination - unsafe for contact</h3>
+                            <p style="color: var(--muted-foreground); font-size: 0.875rem;">Fecal Coliform: 850 CFU/100ml • Dashashwamedh Ghat</p>
+                            <p style="color: var(--muted-foreground); font-size: 0.75rem; margin-top: 0.25rem;">2 hours ago</p>
+                        </div>
+                        
+                        <div class="alert-warning p-4 mb-4" style="border-radius: var(--radius);">
+                            <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Warning: Low dissolved oxygen levels detected</h3>
+                            <p style="color: var(--muted-foreground); font-size: 0.875rem;">DO: 4.2 mg/L • Varanasi Sewage Treatment Plant</p>
+                            <p style="color: var(--muted-foreground); font-size: 0.75rem; margin-top: 0.25rem;">4 hours ago</p>
+                        </div>
+                        
+                        <div class="alert-normal p-4" style="border-radius: var(--radius);">
+                            <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Normal: pH level within acceptable range</h3>
+                            <p style="color: var(--muted-foreground); font-size: 0.875rem;">pH: 7.2 • Dashashwamedh Ghat</p>
+                            <p style="color: var(--muted-foreground); font-size: 0.75rem; margin-top: 0.25rem;">6 hours ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Ganga River Map -->
+            <div class="mb-6">
+                <h2 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i data-lucide="droplets" style="width: 20px; height: 20px;"></i>
+                    AI Pollution Intelligence Map
+                </h2>
+                
+                <div class="card">
+                    <div id="map"></div>
+                </div>
+                
+                <!-- Map Legend -->
+                <div style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.875rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 12px; height: 12px; background: var(--success); border-radius: 50%;"></div>
+                        <span>Normal Quality</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 12px; height: 12px; background: var(--warning); border-radius: 50%;"></div>
+                        <span>Moderate Pollution</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 12px; height: 12px; background: var(--destructive); border-radius: 50%;"></div>
+                        <span>High Pollution</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 12px; height: 12px; background: #374151; border-radius: 50%;"></div>
+                        <span>Industrial Activity</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 4. ANALYTICS SCREEN -->
+    <div id="analytics" class="screen">
+        <!-- Header -->
+        <div style="background: var(--card); box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-bottom: 1px solid var(--border);">
+            <div class="container" style="padding: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i data-lucide="bar-chart-3" style="width: 24px; height: 24px; color: var(--primary-foreground);"></i>
+                </div>
+                <div>
+                    <h1 style="font-size: 1.125rem; font-weight: 600;">Water Quality Analytics</h1>
+                    <p style="font-size: 0.875rem; color: var(--muted-foreground);">Historical data and trends</p>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="padding: 1.5rem; padding-bottom: 5rem;">
+            <!-- Parameter Selection -->
+            <div class="card mb-6">
+                <div style="padding: 1.5rem; border-bottom: 1px solid var(--border);">
+                    <h3 style="font-weight: 600;">Select Parameters</h3>
+                </div>
+                <div style="padding: 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Water Quality Parameter</label>
+                        <select id="analyticsParameter" class="select" onchange="updateChart()">
+                            <option value="ph">pH Level</option>
+                            <option value="do">Dissolved Oxygen (DO)</option>
+                            <option value="bod">Biological Oxygen Demand (BOD)</option>
+                            <option value="nitrate">Nitrate</option>
+                            <option value="fecal-coliform">Fecal Coliform</option>
+                            <option value="rainfall">Rainfall</option>
+                            <option value="flow">River Flow</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Time Period</label>
+                        <select id="analyticsPeriod" class="select" onchange="updateChart()">
+                            <option value="7">Last 7 Days</option>
+                            <option value="30" selected>Last 30 Days</option>
+                            <option value="90">Last 3 Months</option>
+                            <option value="365">Last Year</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- Chart Container -->
+            <div class="card mb-6">
+                <div style="padding: 1.5rem; border-bottom: 1px solid var(--border);">
+                    <h3 id="chartTitle" style="font-weight: 600;">pH Level Trends</h3>
+                </div>
+                <div style="padding: 1.5rem;">
+                    <div class="chart-container">
+                        <canvas id="analyticsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Summary Cards -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                <div class="card">
+                    <div style="padding: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <h4 style="font-size: 0.875rem; font-weight: 500; color: var(--muted-foreground);">Current Value</h4>
+                            <p id="currentValue" style="font-size: 1.5rem; font-weight: bold;">7.20</p>
+                            <p id="currentUnit" style="font-size: 0.75rem; color: var(--muted-foreground);">pH</p>
+                        </div>
+                        <div style="width: 48px; height: 48px; background: hsla(142, 71%, 45%, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i data-lucide="trending-up" style="width: 24px; height: 24px; color: var(--success);"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div style="padding: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <h4 style="font-size: 0.875rem; font-weight: 500; color: var(--muted-foreground);">Average (30 days)</h4>
+                            <p id="averageValue" style="font-size: 1.5rem; font-weight: bold;">7.15</p>
+                            <p id="averageUnit" style="font-size: 0.75rem; color: var(--muted-foreground);">pH</p>
+                        </div>
+                        <div style="width: 48px; height: 48px; background: hsla(210, 100%, 45%, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i data-lucide="bar-chart-3" style="width: 24px; height: 24px; color: var(--primary);"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div style="padding: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <h4 style="font-size: 0.875rem; font-weight: 500; color: var(--muted-foreground);">Trend</h4>
+                            <p id="trendValue" style="font-size: 1.5rem; font-weight: bold; color: var(--success);">↗️2.3%</p>
+                            <p style="font-size: 0.75rem; color: var(--muted-foreground);">vs last period</p>
+                        </div>
+                        <div style="width: 48px; height: 48px; background: hsla(142, 71%, 45%, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i data-lucide="trending-up" style="width: 24px; height: 24px; color: var(--success);"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 5. ACCOUNT MANAGEMENT SCREEN -->
+    <div id="account" class="screen">
+        <!-- Header -->
+        <div style="background: var(--card); box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-bottom: 1px solid var(--border);">
+            <div class="container" style="padding: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i data-lucide="user" style="width: 24px; height: 24px; color: var(--primary-foreground);"></i>
+                </div>
+                <div>
+                    <h1 style="font-size: 1.125rem; font-weight: 600;">My Account</h1>
+                    <p style="font-size: 0.875rem; color: var(--muted-foreground);">Manage your profile</p>
+                </div>
+            </div>
+        </div>
+        <div style="max-width: 600px; margin: 0 auto; padding: 1.5rem; padding-bottom: 5rem;">
+            <!-- Profile Information -->
+            <div class="card mb-6">
+                <div style="padding: 1.5rem; border-bottom: 1px solid var(--border);">
+                    <h3 style="font-weight: 600;">Profile Information</h3>
+                </div>
+                <div style="padding: 1.5rem;">
+                    <form id="profileForm" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Full Name</label>
+                            <input type="text" id="profileName" class="input" placeholder="Enter your full name">
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email Address</label>
+                            <input type="email" id="profileEmail" class="input" placeholder="Enter your email">
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">City</label>
+                            <select id="profileCity" class="select">
+                                <option value="">Select your city</option>
+                                <option value="Haridwar">Haridwar</option>
+                                <option value="Kanpur">Kanpur</option>
+                                <option value="Allahabad">Allahabad</option>
+                                <option value="Varanasi">Varanasi</option>
+                                <option value="Patna">Patna</option>
+                                <option value="Kolkata">Kolkata</option>
+                            </select>
+                        </div>
+                        
+                        <div style="display: flex; gap: 0.75rem; padding-top: 1rem;">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button type="button" class="btn btn-secondary" onclick="resetProfile()">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Notification Preferences -->
+            <div class="card mb-6">
+                <div style="padding: 1.5rem; border-bottom: 1px solid var(--border);">
+                    <h3 style="font-weight: 600;">Notification Preferences</h3>
+                </div>
+                <div style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <h4 style="font-weight: 500;">Water Quality Alerts</h4>
+                            <p style="font-size: 0.875rem; color: var(--muted-foreground);">Receive notifications for water quality changes</p>
+                        </div>
+                        <label style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                            <input type="checkbox" id="alertsToggle" style="opacity: 0; width: 0; height: 0;" checked>
+                            <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--primary); transition: .4s; border-radius: 24px;"></span>
+                            <span style="position: absolute; content: ''; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%;"></span>
+                        </label>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <h4 style="font-weight: 500;">Critical Alerts</h4>
+                            <p style="font-size: 0.875rem; color: var(--muted-foreground);">Urgent notifications for dangerous pollution levels</p>
+                        </div>
+                        <label style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                            <input type="checkbox" id="criticalToggle" style="opacity: 0; width: 0; height: 0;" checked>
+                            <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--primary); transition: .4s; border-radius: 24px;"></span>
+                            <span style="position: absolute; content: ''; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%;"></span>
+                        </label>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <h4 style="font-weight: 500;">Weekly Reports</h4>
+                            <p style="font-size: 0.875rem; color: var(--muted-foreground);">Weekly water quality summary for your city</p>
+                        </div>
+                        <label style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                            <input type="checkbox" id="reportsToggle" style="opacity: 0; width: 0; height: 0;">
+                            <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px;"></span>
+                            <span style="position: absolute; content: ''; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%;"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <!-- Account Actions -->
+            <div class="card">
+                <div style="padding: 1.5rem; border-bottom: 1px solid var(--border);">
+                    <h3 style="font-weight: 600;">Account Actions</h3>
+                </div>
+                <div style="padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                    <button class="btn" style="display: flex; align-items: center; padding: 1rem; height: auto; justify-content: flex-start; background: var(--background); border: 1px solid var(--border);">
+                        <i data-lucide="download" style="width: 20px; height: 20px; margin-right: 0.75rem;"></i>
+                        <div style="text-align: left;">
+                            <h4 style="font-weight: 500;">Export Data</h4>
+                            <p style="font-size: 0.875rem; color: var(--muted-foreground);">Download your water quality data</p>
+                        </div>
+                    </button>
+                    
+                    <button class="btn" style="display: flex; align-items: center; padding: 1rem; height: auto; justify-content: flex-start; background: var(--background); border: 1px solid var(--border);">
+                        <i data-lucide="lock" style="width: 20px; height: 20px; margin-right: 0.75rem;"></i>
+                        <div style="text-align: left;">
+                            <h4 style="font-weight: 500;">Change Password</h4>
+                            <p style="font-size: 0.875rem; color: var(--muted-foreground);">Update your account password</p>
+                        </div>
+                    </button>
+                    
+                    <button onclick="signOut()" class="btn" style="display: flex; align-items: center; padding: 1rem; height: auto; justify-content: flex-start; background: var(--background); border: 1px solid var(--border); color: var(--destructive);">
+                        <i data-lucide="log-out" style="width: 20px; height: 20px; margin-right: 0.75rem;"></i>
+                        <div style="text-align: left;">
+                            <h4 style="font-weight: 500;">Sign Out</h4>
+                            <p style="font-size: 0.875rem; color: var(--muted-foreground);">Log out of your account</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- BOTTOM NAVIGATION -->
+    <div id="bottomNav" class="bottom-nav ">
+        <div style="display: flex; max-width: 400px; margin: 0 auto;">
+            <button class="nav-button" onclick="showScreen('dashboard')" id="navHome">
+                <i data-lucide="home" style="width: 20px; height: 20px; margin: 0 auto 0.25rem; display: block;"></i>
+                <span style="font-size: 0.75rem;">Home</span>
+            </button>
+            <button class="nav-button" onclick="showScreen('analytics')" id="navAnalytics">
+                <i data-lucide="bar-chart-3" style="width: 20px; height: 20px; margin: 0 auto 0.25rem; display: block;"></i>
+                <span style="font-size: 0.75rem;">Analytics</span>
+            </button>
+            <button class="nav-button"
+onclick="showScreen('account')"
+id="navAccount">
+                <i data-lucide="user" style="width: 20px; height: 20px; margin: 0 auto 0.25rem; display: block;"></i>
+                <span style="font-size: 0.75rem;">Account</span>
+            </button>
+        </div>
+    </div>
+   
+    <script src="script.js"></script>
+    </body>
+</html> 
